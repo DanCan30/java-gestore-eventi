@@ -10,18 +10,21 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		boolean mainMenu = true;
 		
+		
 		System.out.println("Set a name for an Event Program: ");
 		String userProgramName = sc.nextLine();
 		EventProgram ep = new EventProgram(userProgramName.substring(0,1).toUpperCase() + userProgramName.substring(1));
 		
+
 		System.out.println("Event Program " + ep.getTitle() + " created successfully.");
 		
 		while(mainMenu) {
 			System.out.println("\n\nWhat's next?"
 					+ "\n0-See all the events in the program"
 					+ "\n1-Add a new event"
-					+ "\n2-Check all the events in a specific date"
-					+ "\n3-Delete all the events in the program");
+					+ "\n2-Add a new concert"
+					+ "\n3-Check all the events in a specific date"
+					+ "\n4-Delete all the events in the program");
 			int userMenuChoice = sc.nextInt();
 	
 			if(userMenuChoice == 0) {
@@ -46,15 +49,15 @@ public class Main {
 					System.err.println("Invalid input.");
 					mainMenu = true;
 				}
-			}
-			else if(userMenuChoice == 1) {
+			} else if(userMenuChoice == 1) {
 				createNewEvent(mainMenu, sc, ep);
-			}
-			else if(userMenuChoice == 2) {
+			} else if(userMenuChoice == 2) {
+				createNewConcert(mainMenu, sc, ep);
+			}else if(userMenuChoice == 3) {
 				System.out.println("Select a date (yyyy-mm-dd): ");
 				String userDate = sc.next();
 				ep.getEventsInADate(userDate);
-			} else if(userMenuChoice == 3) {
+			} else if(userMenuChoice == 4) {
 				ep.removeAllEventsFromProgram();
 				System.out.println("All events removed from the program.");
 			} else {
@@ -62,9 +65,8 @@ public class Main {
 			}
 			mainMenu = true;
 		}
-		
 	}
-	
+
 	public static void createNewEvent(boolean menu, Scanner sc, EventProgram program) {
 
 		menu = false;
@@ -91,6 +93,35 @@ public class Main {
 		}
 	}
 	
+	public static void createNewConcert(boolean menu, Scanner sc, EventProgram program) {
+
+		menu = false;
+		System.out.println("----------");
+		System.out.print("Add a new concert title: ");
+		String title = sc.next();
+		System.out.print("Set a date for your concert (yyyy-mm-dd): ");
+		String date = sc.next();
+		System.out.print("Set the amount of available seats: ");
+		int availableSeats = sc.nextInt();
+		System.out.print("Set an hour for your concert (hh.mm): ");
+		String hour = sc.next();
+		System.out.print("Set a price for your concert: ");
+		int price = sc.nextInt();
+		Concert c;
+		
+		try {
+			c = new Concert(title, date, availableSeats, hour, price);
+			System.out.println("Your concert has been created successfully. Here the details: ");
+			System.out.println(c);
+			System.out.println("Available seats: " + c.getAvailableSeats());
+			program.addEvent(c);
+			
+		} catch(Exception ex) {
+			System.err.println(ex.getMessage());
+		} finally {
+			menu = true;
+		}
+	}
 	public static void bookSeats(boolean menu, Scanner sc, EventProgram program) {
 		
 		if(program.countEvents() == 0) {
@@ -137,48 +168,6 @@ public class Main {
 				System.err.println(e.getMessage());
 			}
 		}
-	}
-	
-	
+	}	
 }
-//}
-//
-//if(createdEvent) {
-//	
-//	System.out.println("Do you want to reserve some seats? (type y for yes, everything else will be considered a no)");
-//	String userBookingChoice = sc.next();
-//	int userReservedSeats = 0;
-//	
-//	if(userBookingChoice.toLowerCase().equals("y")) {
-//		System.out.println("How many seats do you need? ");
-//		try {
-//			
-//		userReservedSeats = sc.nextInt();
-//		e.reserveSeat(userReservedSeats);
-//		System.out.println("You booked " + userReservedSeats + " seats."
-//				+ "\nSeats reserved: " + e.getTakenSeats()
-//				+ "\nSeats available: " + e.getAvailableSeats());
-//		} catch (Exception ex) {
-//			System.err.println(ex.getMessage());
-//			return;
-//		}
-//		
-//		System.out.println("Do you want to cancel some reserved seats? (type y for yes, everything else will be considered a no)");
-//		String userCancelChoice = sc.next();
-//		int userRemovedSeats = 0;
-//		
-//		if(userCancelChoice.toLowerCase().equals("y")) {
-//			System.out.println("How many reserved seats do you want to remove? ");
-//			try {
-//				
-//				userRemovedSeats = sc.nextInt();
-//			e.cancelReservedSeat(userRemovedSeats);
-//			System.out.println("You removed " + userRemovedSeats + " reserved seats."
-//					+ "\nSeats reserved: " + e.getTakenSeats()
-//					+ "\nSeats available: " + e.getAvailableSeats());
-//			} catch (Exception ex) {
-//				System.err.println(ex.getMessage());
-//			}
-//		}
-//	}
-//}
+
