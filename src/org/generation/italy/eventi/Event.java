@@ -61,34 +61,42 @@ public class Event {
 		return this.takenSeats;
 	}
 	
-	public void reserveASeat() throws Exception {
+	public void reserveSeat(Integer num) throws Exception {
+		
+		if(!(num instanceof Integer)) {
+			throw new Exception("Please insert a valid number");
+		}
 		
 		if(LocalDate.now().isAfter(date)) {
 			throw new Exception("The event is passed.");
 		}
-		this.availableSeats--;
+		this.availableSeats -= num;
 		
 		if(this.availableSeats < 0) {
 			this.availableSeats = 0;
-			throw new Exception("There are no seats left to reserve.");
+			throw new Exception("There aren't enough seats to reserve.");
 		}
 		
-		this.takenSeats ++;
+		this.takenSeats += num;
 	}
 	
-	public void cancelAReservedSeat() throws Exception {
+	public void cancelReservedSeat(Integer num) throws Exception {
+		
+		if(!(num instanceof Integer)) {
+			throw new Exception("Please insert a valid number");
+		}
 		
 		if(LocalDate.now().isAfter(date)) {
 			throw new Exception("The event is passed.");
 		}
-		this.takenSeats--;
+		this.takenSeats -= num;
 		
 		if(this.takenSeats < 0) {
 			this.takenSeats = 0;
 			throw new Exception("There are no reserved seats yet.");
 		}
 		
-		this.availableSeats++;
+		this.availableSeats += num;
 	}
 	
 	public String getFormattedDate() {
