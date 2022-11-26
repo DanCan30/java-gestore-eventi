@@ -29,7 +29,7 @@ public class EventProgram {
 	
 	public EventProgram(String title) {
 		setTitle(title);
-		events = new ArrayList<>();
+		this.events = getEvents();
 	}
 	
 	public void setTitle(String title) {
@@ -37,6 +37,10 @@ public class EventProgram {
 	}
 	public String getTitle() {
 		return this.title;
+	}
+	
+	public List<Event> getEvents() {
+		return this.events;
 	}
 	
 	public void addEvent(Event e) {

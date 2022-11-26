@@ -103,6 +103,13 @@ public class Event {
 		return dateFormat.format(getDate());
 	}
 	
+	public boolean equals(Event e) {
+		if (this.getTitle().equals(e.getTitle()) && this.getDate().equals(e.getDate()))
+			return true;
+					
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		return getFormattedDate() + " - " + getTitle();
